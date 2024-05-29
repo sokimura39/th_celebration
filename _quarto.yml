@@ -4,4 +4,4 @@ project:
 
 format:
   html:
-    theme: superhero
+    theme: simplex

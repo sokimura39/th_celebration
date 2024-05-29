@@ -20,5 +20,40 @@ about:
 
 :::
 
-以下工事中です。当日までのお楽しみ！
+## ロンドンみどころマップ
+
+ビッグベンやウェストミンスター寺院などの王道スポット以外のおすすめが知りたい！という方におすすめです。
+
+:::{.column-screen}
+
+```{r create_map, echo=FALSE, warning=FALSE, message=FALSE}
+# create interactive map
+
+# load data
+library(sf)
+library(tmap)
+library(tmaptools)
+library(tidyverse)
+
+poi <- read_csv("data/spots.csv", locale = locale(encoding = "shift-jis")) %>%
+  st_as_sf(., coords = c("x", "y"), crs = 4326)
+
+poi$details <- gsub("。", "。</br>", poi$details)
+
+# create interactive map
+tmap_mode("view")
+
+tm_shape(poi) +
+  tm_dots(
+    size = 0.2,
+    title = "ジャンル",
+    col = "category",
+    popup.vars = c("ジャンル" = "category", "詳細" = "details"),
+    popup.format = list(text.align = "left", html.escape = FALSE),
+    text = "name"
+  )
+
+```
+
+:::
 
